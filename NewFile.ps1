@@ -94,18 +94,33 @@ $comboSubType.Items.AddRange(@("Transfer","New ID","Second ID/Active FP"))
 $comboSubType.Visible = $false
 $form.Controls.Add($comboSubType)
 
+$chkEscortFile = New-Object System.Windows.Forms.CheckBox
+$chkEscortFile.Text = "Do They Require Escort?"
+$chkEscortFile.Location = New-Object System.Drawing.Point(150,220)
+$chkEscortFile.AutoSize = $true
+$chkEscortFile.Visible = $false
+$form.Controls.Add($chkEscortFile)
+
 # === DYNAMIC RESIZE === #
 
 $comboType.Add_SelectedIndexChanged({
 	if ($comboType.SelectedItem -like "N*") {
 		$lblSubType.Visible = $true
 		$comboSubType.Visible = $true
+        $chkEscortFile.Visible = $false
 		$btnCreate.Location = New-Object System.Drawing.Point(150,300)
 		$form.Size = New-Object System.Drawing.Size(500,400)
-	} else {
+	} elseif ($comboType.SelectedItem -like "R*"){
+        $lblSubType.Visible = $false
+        $comboSubType.Visible = $false
+        $chkEscortFile.Visible = $true
+        $btnCreate.Location = New-Object System.Drawing.Point(150,260)
+        $form.Size = New-Object System.Drawing.Point(500,350)
+    } else {
 		$lblSubType.Visible = $false
 		$comboSubType.Visible = $false
 		$comboSubType.SelectedIndex = -1
+        $chkEscortFile.Visible = $false
 		$btnCreate.Location = New-Object System.Drawing.Point(150,260)
 		$form.Size = New-Object System.Drawing.Size(500,350)
 	}
@@ -148,6 +163,9 @@ $btnCreate.Add_Click({
                 $selectedType = $comboType.SelectedItem
                 if ($selectedType -like "R*") {
                     $filesToCopy = $RenewalFiles
+                    if ($chkEscortFile.Checked) {
+                        $filesToCopy += "ESCORT LETTER.doc"
+                    }
                 } elseif ($selectedType -like "N*") {
                     switch ($comboSubType.SelectedItem) {
 						"Transfer" {$filesToCopy = $TransferFiles}
