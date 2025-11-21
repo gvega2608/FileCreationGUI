@@ -1,3 +1,4 @@
 @echo off
-powershell.exe -ExecutionPolicy Bypass -File "C:\Users\Gabriela.Vega\OneDrive - WFS\Desktop\SCRIPTS\NewFile.ps1"
+powershell.exe -ExecutionPolicy Bypass -File "C:\Users\Gabriela.Vega\OneDrive - WFS\Desktop\SCRIPTS\EmployeeFolderManager\Dashboard.ps1"
+
 pause
